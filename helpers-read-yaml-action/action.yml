@@ -1,0 +1,10 @@
+name: "YAML Read"
+description: "This is a NodeJS action to read YAML configuration files."
+inputs:
+  config:
+    description: "Config file name"
+    required: true
+    default: ""
+runs:
+  using: "node16"
+  main: "index.js"
