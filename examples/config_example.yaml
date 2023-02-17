@@ -1,0 +1,5 @@
+namespace: namespace_example
+location: location_example
+environment: dev
+
+resource_group_name: $(namespace)-$(location)-$(environment) # this will be replaced with the variables above
