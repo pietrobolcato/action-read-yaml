@@ -1,5 +1,9 @@
 name: "YAML Read"
-description: "This is a NodeJS action to read YAML configuration files."
+description: "This action reads a YAML configuration files, with support to variable interpolation"
+author: "pietrobolcato"
+branding:
+  icon: box
+  color: blue
 inputs:
   config:
     description: "Config file name"
