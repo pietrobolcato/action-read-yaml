@@ -12,10 +12,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: read-yaml-file
-        uses: pietrobolcato/action-read-yaml@1.0.0
+        uses: pietrobolcato/action-read-yaml@1.1.0
         id: read_action_js
         with:
-          config: ${{ github.workspace }}/examples/config_example.yaml
+          config: ${{ github.workspace }}/examples/basic/config_example_basic.yaml
 
       - name: use-yaml-file
         run: |
