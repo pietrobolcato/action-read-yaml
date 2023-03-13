@@ -19,10 +19,10 @@ jobs:
 
       - name: use-yaml-file
         run: |
-          echo environment name: ${{ steps.read_action_js.outputs.environment.name }}
-          echo first permission name: ${{ steps.read_action_js.outputs.environment.permissions.0.name }}
-          echo first permission permissions: ${{ steps.read_action_js.outputs.environment.permissions.0.permission }}
-          echo second permission name: ${{ steps.read_action_js.outputs.environment.permissions.1.name }}
-          echo second permission permissions: ${{ steps.read_action_js.outputs.environment.permissions.1.permission }}
-          echo deployment source libs: ${{ steps.read_action_js.outputs.deployment.code.source.libs }}
-          echo deployment source libs: ${{ steps.read_action_js.outputs.deployment.code.source.entry }}
+          echo environment name: ${{ steps.read_action_js.outputs['environment.name'] }}
+          echo first permission name: ${{ steps.read_action_js.outputs['environment.permissions.0.name'] }}
+          echo first permission permissions: ${{ steps.read_action_js.outputs['environment.permissions.0.permission'] }}
+          echo second permission name: ${{ steps.read_action_js.outputs['environment.permissions.1.name'] }}
+          echo second permission permissions: ${{ steps.read_action_js.outputs['environment.permissions.1.permission'] }}
+          echo deployment source libs: ${{ steps.read_action_js.outputs['deployment.code.source.libs'] }}
+          echo deployment source entry: ${{ steps.read_action_js.outputs['deployment.code.source.entry'] }}

@@ -50,10 +50,10 @@ The action reads the yaml file as following:
 >
 >       - name: use-yaml-file
 >         run: |
->           echo namespace: ${{ steps.read_action_js.outputs.namespace }}
->           echo location: ${{ steps.read_action_js.outputs.location }}
->           echo environment: ${{ steps.read_action_js.outputs.environment }}
->           echo resource_group_name: ${{ steps.read_action_js.outputs.resource_group_name }}
+>           echo namespace: ${{ steps.read_action_js.outputs['namespace'] }}
+>           echo location: ${{ steps.read_action_js.outputs['location'] }}
+>           echo environment: ${{ steps.read_action_js.outputs['environment'] }}
+>           echo resource_group_name: ${{ steps.read_action_js.outputs['resource_group_name'] }}
 > ```
 
 And outputs:
