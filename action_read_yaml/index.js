@@ -7,6 +7,9 @@
  *
  * The variables are in the format `$(variableName)` and are replaced by their corresponding
  * values in the resolved object. If a variable is not defined, an error will be thrown.
+ *
+ * If the YAML configuration file contains nested values, the output keys will use a dot notation
+ * to represent the hierarchy of the values. See README in the root of the repo for examples.
  */
 
 const core = require("@actions/core");
@@ -20,20 +23,35 @@ const yaml = require("js-yaml");
  * @return {string} The string with all variables replaced
  */
 const replaceVariables = (value, resolved) => {
-  let match = value.match(/\$\(([^\)]+)\)/);
+  if (typeof value === "object") {
+    // Recursively replace variables in nested objects
+    const nestedObj = {};
 
-  while (match !== null) {
-    const varName = match[1];
-
-    if (!resolved[varName]) {
-      throw new Error(`Variable "${varName}" is not defined`);
+    for (const key in value) {
+      nestedObj[key] = replaceVariables(value[key], resolved);
     }
 
-    value = value.replace(match[0], resolved[varName]);
-    match = value.match(/\$\(([^\)]+)\)/);
-  }
+    return nestedObj;
+  } else if (typeof value === "string") {
+    // Replace variables in string values
+    let match = value.match(/\$\(([^\)]+)\)/);
 
-  return value;
+    while (match !== null) {
+      const varName = match[1];
+
+      if (!resolved[varName]) {
+        throw new Error(`Variable "${varName}" is not defined`);
+      }
+
+      value = value.replace(match[0], resolved[varName]);
+      match = value.match(/\$\(([^\)]+)\)/);
+    }
+
+    return value;
+  } else {
+    // Non-string, non-object values are returned as-is
+    return value;
+  }
 };
 
 /**
@@ -55,10 +73,17 @@ async function main() {
       const configYaml = yaml.load(data, { schema: SCHEMA });
       const resolved = {};
 
-      // Resolve variables for each field in the config
-      for (const key in configYaml) {
-        resolved[key] = replaceVariables(configYaml[key], resolved);
-      }
+      const resolveFields = (obj, prefix = "") => {
+        for (const [key, value] of Object.entries(obj)) {
+          if (typeof value === "object" && value !== null) {
+            resolveFields(value, prefix + key + ".");
+          } else {
+            resolved[prefix + key] = replaceVariables(value, resolved);
+          }
+        }
+      };
+
+      resolveFields(configYaml);
 
       Object.entries(resolved).map((val) => {
         const key = val[0];
