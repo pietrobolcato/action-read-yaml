@@ -2,11 +2,17 @@
 
 This action reads a .yaml file, and sets one output for every key it has. These outputs can be used in later steps, which allows a yaml file to function as a configuration file within a Github workflow.
 
-Furthermore it supports variables interpolation, using the `$(var)` syntax. This allows for complex dependencies and relationship between keys, enabling great flexibility when creating the yaml file. For more information, check the example below.
+Furthermore it supports variables interpolation, using the `$(var)` syntax. This allows for complex dependencies and relationship between keys, enabling great flexibility when creating the yaml file.
+
+Finally, it supports hierarchy of nested values, representing the output through dot notation.
+
+For more information, check the example below.
 
 ## Example usage
 
-An example is provided in the [examples](examples) folder, containing a config file called [config_example.yaml](examples/config_example.yaml) and a Github action called [read_yaml.yaml](examples/read_yaml.yaml).
+Two examples are provided in the [examples](examples) folder.
+
+### Basic config
 
 The config file contains the following keys:
 
@@ -52,9 +58,42 @@ The action reads the yaml file as following:
 
 And outputs:
 
-> ```bash
+> ```
 > namespace: namespace_example
 > location: location_example
 > environment: dev
 > resource_group_name: namespace_example-location_example-dev
+> ```
+
+### Nested config
+
+The config file contains the following keys:
+
+> ```yaml
+> name: example
+> environment:
+>   name: example
+>   permissions:
+>     - name: example
+>       permission: read
+>     - name: example2
+>       permission: write
+> deployment:
+>   code:
+>     source:
+>       libs: path/to/libs
+>       entry: path/to/entry
+> ```
+
+Note that this is contained nested values. The action reads the yaml file in the same way as the example above, and outputs:
+
+> ```
+> name: example
+> environment.name: example
+> environment.permissions.0.name: example
+> environment.permissions.0.permission: read
+> environment.permissions.1.name: example2
+> environment.permissions.1.permission: write
+> deployment.code.source.libs: path/to/libs
+> deployment.code.source.entry: path/to/entry
 > ```
