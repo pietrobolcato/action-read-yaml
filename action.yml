@@ -9,6 +9,14 @@ inputs:
     description: "Config file name"
     required: true
     default: ""
+  key-path:
+    description: "Key path to filter out in the yaml file"
+    required: false
+    default: ""
+  env-var-prefix:
+    description: "Prefix that will be added as the prefix to the environment variables output"
+    required: false
+    default: ""
 runs:
   using: "node16"
   main: "action_read_yaml/index.js"
