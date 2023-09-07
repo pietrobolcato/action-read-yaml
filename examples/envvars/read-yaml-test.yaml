@@ -1,0 +1,39 @@
+name: helpers-read-yaml
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  read-yaml:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: read-yaml-file
+        uses: pietrobolcato/action-read-yaml@main
+        id: read_action_js
+        with:
+          config: ${{ github.workspace }}/examples/envvars/config_example_env.yaml
+          env-var-prefix: myEnv
+
+      - name: use-yaml-file
+        run: |
+          echo environment name: ${{ steps.read_action_js.outputs['environment.name'] }}
+          echo first permission name: ${{ steps.read_action_js.outputs['environment.permissions.0.name'] }}
+          echo first permission permissions: ${{ steps.read_action_js.outputs['environment.permissions.0.permission'] }}
+          echo second permission name: ${{ steps.read_action_js.outputs['environment.permissions.1.name'] }}
+          echo second permission permissions: ${{ steps.read_action_js.outputs['environment.permissions.1.permission'] }}
+          echo deployment source libs: ${{ steps.read_action_js.outputs['deployment.code.source.libs'] }}
+          echo deployment source entry: ${{ steps.read_action_js.outputs['deployment.code.source.entry'] }}
+          echo
+          env | grep "myEnv_"
+          echo
+          echo environment name: $myEnv_environment_name
+          echo first permission name: $myEnv_environment_permissions_0_name
+          echo first permission permissions: $myEnv_environment_permissions_0_permission
+          echo second permission name: $myEnv_environment_permissions_1_name
+          echo second permission permissions: $myEnv_environment_permissions_1_permission
+          echo deployment source libs: $myEnv_deployment_code_source_libs
+          echo deployment source entry: $myEnv_deployment_code_source_entry
