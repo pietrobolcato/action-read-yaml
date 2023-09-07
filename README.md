@@ -126,6 +126,25 @@ Note that this is contained nested values. The action reads the yaml file in the
 
 
 ### Environment variable output and filter pattern
+The config file contains the following keys:
+
+> ```yaml
+> name: example
+> environment:
+>   name: example
+>   permissions:
+>     - name: example
+>       permission: read
+>     - name: example2
+>       permission: write
+> deployment:
+>   code:
+>     source:
+>       libs: path/to/libs
+>       entry: path/to/entry
+> ```
+
+The action reads the yaml file as following:
 
 > ```yaml
 > name: helpers-read-yaml
