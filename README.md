@@ -30,7 +30,7 @@ By omitting this config the action will not generate any environment variable.
 
 This configuration is optional and is a regular expression that filters out keys that matches with the pattern.
 
-It also remove that pattern from the key string, so if the dot notation key is like a.b.c.d.x and the key-path-pattern is ^a\.b\. the output key will be c.d.x .
+It also remove that pattern from the key string, so if the dot notation key is like a.b.c.d.x and the key-path-pattern is ^a\\.b\\. the output key will be c.d.x .
 
 By omitting this config the action will not do any filteration and key string replacement.
 
@@ -127,7 +127,7 @@ Note that this is contained nested values. The action reads the yaml file in the
 
 ### Environment variable output and filter pattern
 
- ```yaml
+> ```yaml
 > name: helpers-read-yaml
 >
 > on:
