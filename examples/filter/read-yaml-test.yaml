@@ -1,0 +1,57 @@
+name: helpers-read-yaml
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  read-yaml:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: read-yaml-file-1
+        uses: pietrobolcato/action-read-yaml@main
+        id: deployments
+        with:
+          config: ${{ github.workspace }}/examples/filter/config_example.yaml
+          env-var-prefix: myEnv
+          key-path-pattern: ^deployment\.code\.
+
+      - name: use-yaml-file-1
+        run: |
+          echo deployment source libs: ${{ steps.deployments.outputs['source.libs'] }}
+          echo deployment source entry: ${{ steps.deployments.outputs['source.entry'] }}
+          echo
+          env | grep "myEnv_"
+          echo
+          echo deployment source libs: $myEnv_source_libs
+          echo deployment source entry: $myEnv_source_entry
+
+
+      - name: read-yaml-file-2
+        uses: pietrobolcato/action-read-yaml@main
+        id: permissions
+        with:
+          config: ${{ github.workspace }}/examples/filter/config_example.yaml
+          env-var-prefix: myEnv
+          key-path-pattern: ^environment\.permissions\.
+
+      - name: use-yaml-file-2
+        run: |
+          echo first permission name: ${{ steps.permissions.outputs['0.name'] }}
+          echo first permission permissions: ${{ steps.permissions.outputs['0.permission'] }}
+          echo second permission name: ${{ steps.permissions.outputs['1.name'] }}
+          echo second permission permissions: ${{ steps.permissions.outputs['1.permission'] }}
+          echo
+          env | grep "myEnv_"
+          echo
+          for i in 0 1
+          do
+            name="myEnv_${i}_name"
+            permission="myEnv_${i}_permission"
+            echo first permission name: $(eval "echo \${$name}")
+            echo first permission permissions: $(eval "echo \${$permission}")
+
+          done

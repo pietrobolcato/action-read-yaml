@@ -60,12 +60,21 @@ const replaceVariables = (value, resolved) => {
 async function main() {
   try {
     const configData = core.getInput("config");
+    const keyPathPattern = core.getInput("key-path-pattern");
+    const envVarPrefix = core.getInput("env-var-prefix");
 
     fs.readFile(configData, "utf8", (err, data) => {
       if (err) {
         console.error(err);
         return;
       }
+
+      if ( keyPathPattern )
+      {
+         core.info(`\n\nkey-path-pattern is :: ${keyPathPattern}`);
+         core.info("\n\n");
+      }
+
 
       console.log("Read data:\n", data);
 
@@ -88,11 +97,38 @@ async function main() {
 
       resolveFields(configYaml);
 
+      const reKPP = RegExp(keyPathPattern,"g");
+      const reEnvVarPattern = RegExp('[\.|\-]',"g");
+
       Object.entries(resolved).map((val) => {
         const key = val[0];
         const value = val[1];
-
-        core.setOutput(key, value);
+        if ( keyPathPattern )
+        {
+            if(key.match(reKPP))
+            {
+                var k=key.replace(reKPP,'');
+                core.info(`${k} : ${value}`);
+                core.setOutput(k,value);
+                if ( envVarPrefix )
+                {
+                    k=k.replace(reEnvVarPattern,"_");
+                    core.info(`${envVarPrefix}_${k}=${value}`);
+                    core.exportVariable(`${envVarPrefix}_${k}`,value);
+                }
+            }
+        }
+        else
+        {
+            core.info(`${key} : ${value}`);
+            core.setOutput(key,value);
+            if ( envVarPrefix )
+            {
+                k=key.replace(reEnvVarPattern,"_");
+                core.info(`${envVarPrefix}_${k}=${value}`);
+                core.exportVariable(`${envVarPrefix}_${k}`,value);
+            }
+        }
       });
     });
   } catch (error) {

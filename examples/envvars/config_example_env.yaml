@@ -1,0 +1,13 @@
+name: example
+environment:
+  name: example
+  permissions:
+    - name: example
+      permission: read
+    - name: example2
+      permission: write
+deployment:
+  code:
+    source:
+      libs: path/to/libs
+      entry: path/to/entry
