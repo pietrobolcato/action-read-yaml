@@ -76,6 +76,9 @@ async function main() {
       const resolveFields = (obj, prefix = "") => {
         for (const [key, value] of Object.entries(obj)) {
           if (typeof value === "object" && value !== null) {
+            if(Array.isArray(value)) {
+              core.setOutput(prefix+key+".array", value);
+            }
             resolveFields(value, prefix + key + ".");
           } else {
             resolved[prefix + key] = replaceVariables(value, resolved);
