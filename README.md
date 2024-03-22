@@ -57,7 +57,7 @@ Note that the key `resource_group_name` uses variable interpolation. The key val
 The action reads the yaml file as following:
 
 > ```yaml
-> name: helpers-read-yaml
+> name: read-yaml
 >
 > on:
 >   push:
@@ -68,10 +68,10 @@ The action reads the yaml file as following:
 >     runs-on: ubuntu-latest
 >     steps:
 >       - name: checkout
->         uses: actions/checkout@v3
+>         uses: actions/checkout@v4
 >
 >       - name: read-yaml-file
->         uses: pietrobolcato/action-read-yaml@1.0.0
+>         uses: ndelangen/action-read-yaml@1.0.0
 >         id: read_action_js
 >         with:
 >           config: ${{ github.workspace }}/examples/config_example.yaml
@@ -149,7 +149,7 @@ The config file contains the following keys:
 The action reads the yaml file as following:
 
 > ```yaml
-> name: helpers-read-yaml
+> name: read-yaml
 >
 > on:
 >   push:
@@ -160,7 +160,7 @@ The action reads the yaml file as following:
 >     runs-on: ubuntu-latest
 >     steps:
 >       - name: checkout
->         uses: actions/checkout@v3
+>         uses: actions/checkout@v4
 >
 >       - name: read-yaml-file-1
 >         uses: ehsandanesh/action-read-yaml@env-var-and-filter
