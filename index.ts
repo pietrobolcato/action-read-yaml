@@ -11,9 +11,9 @@
  * the hierarchy of the values. See README in the root of the repo for examples.
  */
 
-import core from '@actions/core';
+import { exportVariable, getInput, info, setFailed, setOutput } from '@actions/core';
 import fs from 'node:fs/promises';
-import yaml from 'yaml';
+import { parse } from 'yaml';
 
 /**
  * Recursively replaces variables in a string
@@ -57,25 +57,25 @@ const replaceVariables = (value: string | Record<string, any>, resolved: Record<
 /** Main function to execute the action */
 async function main() {
   try {
-    const configData = core.getInput('config');
-    const keyPathPattern = core.getInput('key-path-pattern');
-    const envVarPrefix = core.getInput('env-var-prefix');
+    const configData = getInput('config');
+    const keyPathPattern = getInput('key-path-pattern');
+    const envVarPrefix = getInput('env-var-prefix');
 
     const data = await fs.readFile(configData, 'utf8');
 
     if (keyPathPattern) {
-      core.info(`\n\nkey-path-pattern is :: ${keyPathPattern}`);
-      core.info('\n\n');
+      info(`\n\nkey-path-pattern is :: ${keyPathPattern}`);
+      info('\n\n');
     }
 
-    const configYaml = yaml.parse(data);
+    const configYaml = parse(data);
     const resolved: Record<string, any> = {};
 
     const resolveFields = (obj: Record<string, any>, prefix = '') => {
       for (const [key, value] of Object.entries(obj)) {
         if (typeof value === 'object' && value !== null) {
           if (Array.isArray(value)) {
-            core.setOutput(prefix + key + '.array', value);
+            setOutput(prefix + key + '.array', value);
           }
           resolveFields(value, prefix + key + '.');
         } else {
@@ -95,26 +95,26 @@ async function main() {
       if (keyPathPattern) {
         if (key.match(reKPP)) {
           var k = key.replace(reKPP, '');
-          core.info(`${k} : ${value}`);
-          core.setOutput(k, value);
+          info(`${k} : ${value}`);
+          setOutput(k, value);
           if (envVarPrefix) {
             k = k.replace(reEnvVarPattern, '_');
-            core.info(`${envVarPrefix}_${k}=${value}`);
-            core.exportVariable(`${envVarPrefix}_${k}`, value);
+            info(`${envVarPrefix}_${k}=${value}`);
+            exportVariable(`${envVarPrefix}_${k}`, value);
           }
         }
       } else {
-        core.info(`${key} : ${value}`);
-        core.setOutput(key, value);
+        info(`${key} : ${value}`);
+        setOutput(key, value);
         if (envVarPrefix) {
           k = key.replace(reEnvVarPattern, '_');
-          core.info(`${envVarPrefix}_${k}=${value}`);
-          core.exportVariable(`${envVarPrefix}_${k}`, value);
+          info(`${envVarPrefix}_${k}=${value}`);
+          exportVariable(`${envVarPrefix}_${k}`, value);
         }
       }
     });
   } catch (error: any) {
-    core.setFailed(error.message);
+    setFailed(error.message);
   }
 }
 
