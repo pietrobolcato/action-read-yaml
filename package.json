@@ -1,0 +1,22 @@
+{
+  "name": "read_yaml_action",
+  "version": "1.0.0",
+  "description": "Github action to read YAML file",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsup index.ts --format=cjs --platform=node --treeshake --clean",
+    "format": "prettier --write ."
+  },
+  "author": "Pietro Bolcato",
+  "license": "ISC",
+  "devDependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^6.0.0",
+    "@types/node": "^20.11.30",
+    "yaml": "^2.4.1",
+    "prettier": "^3.2.5",
+    "tsup": "^8.0.2",
+    "prettier-plugin-jsdoc": "^1.3.0",
+    "typescript": "^5.4.3"
+  }
+}
