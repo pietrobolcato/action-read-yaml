@@ -1,4 +1,4 @@
-name: helpers-read-yaml
+name: read-yaml
 
 on:
   push:
@@ -8,11 +8,10 @@ jobs:
   read-yaml:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: read-yaml-file-1
-        uses: pietrobolcato/action-read-yaml@main
+        uses: ndelangen/action-read-yaml@main
         id: deployments
         with:
           config: ${{ github.workspace }}/examples/filter/config_example.yaml
@@ -29,9 +28,8 @@ jobs:
           echo deployment source libs: $myEnv_source_libs
           echo deployment source entry: $myEnv_source_entry
 
-
       - name: read-yaml-file-2
-        uses: pietrobolcato/action-read-yaml@main
+        uses: ndelangen/action-read-yaml@main
         id: permissions
         with:
           config: ${{ github.workspace }}/examples/filter/config_example.yaml

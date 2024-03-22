@@ -8,7 +8,7 @@ It supports hierarchy of nested values, representing the output through dot nota
 
 It also supports filtering dot notations keys in the output so that a specific keys dynamically can be selected in the github workflow.
 
-Finally, it supports adding dot notations keys delimited with _ as environment variables.
+Finally, it supports adding dot notations keys delimited with \_ as environment variables.
 
 For more information, check the example below.
 
@@ -57,7 +57,7 @@ Note that the key `resource_group_name` uses variable interpolation. The key val
 The action reads the yaml file as following:
 
 > ```yaml
-> name: helpers-read-yaml
+> name: read-yaml
 >
 > on:
 >   push:
@@ -68,10 +68,10 @@ The action reads the yaml file as following:
 >     runs-on: ubuntu-latest
 >     steps:
 >       - name: checkout
->         uses: actions/checkout@v3
+>         uses: actions/checkout@v4
 >
 >       - name: read-yaml-file
->         uses: pietrobolcato/action-read-yaml@1.0.0
+>         uses: ndelangen/action-read-yaml@1.0.0
 >         id: read_action_js
 >         with:
 >           config: ${{ github.workspace }}/examples/config_example.yaml
@@ -126,8 +126,8 @@ Note that this is contained nested values. The action reads the yaml file in the
 > deployment.code.source.entry: path/to/entry
 > ```
 
-
 ### Environment variable output and filter pattern
+
 The config file contains the following keys:
 
 > ```yaml
@@ -149,7 +149,7 @@ The config file contains the following keys:
 The action reads the yaml file as following:
 
 > ```yaml
-> name: helpers-read-yaml
+> name: read-yaml
 >
 > on:
 >   push:
@@ -160,7 +160,7 @@ The action reads the yaml file as following:
 >     runs-on: ubuntu-latest
 >     steps:
 >       - name: checkout
->         uses: actions/checkout@v3
+>         uses: actions/checkout@v4
 >
 >       - name: read-yaml-file-1
 >         uses: ehsandanesh/action-read-yaml@env-var-and-filter
@@ -212,7 +212,6 @@ The action reads the yaml file as following:
 
 use-yaml-file-1 outputs:
 
-
 > ```
 > deployment source libs: path/to/libs
 > deployment source entry: path/to/entry
@@ -222,13 +221,11 @@ use-yaml-file-1 outputs:
 >
 > deployment source libs: path/to/libs
 > deployment source entry: path/to/entry
->```
-
+> ```
 
 use-yaml-file-2 outputs:
 
-
->```
+> ```
 > first permission name: example
 > first permission permissions: read
 > second permission name: example2
@@ -245,6 +242,4 @@ use-yaml-file-2 outputs:
 > first permission permissions: read
 > first permission name: example2
 > first permission permissions: write
->```
-
-
+> ```

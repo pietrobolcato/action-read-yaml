@@ -1,4 +1,4 @@
-name: helpers-read-yaml
+name: read-yaml
 
 on:
   push:
@@ -8,11 +8,10 @@ jobs:
   read-yaml:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: read-yaml-file
-        uses: pietrobolcato/action-read-yaml@main
+        uses: ndelangen/action-read-yaml@main
         id: read_action_js
         with:
           config: ${{ github.workspace }}/examples/envvars/config_example_env.yaml

@@ -1,0 +1,24 @@
+name: read-yaml
+
+on:
+  push:
+
+jobs:
+  read-yaml:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: read-yaml
+        uses: ./
+        id: yaml
+        with:
+          config: ${{ github.workspace }}/examples/nested/config_example_nested.yaml
+      - name: use-yaml-file
+        run: |
+          echo environment name: ${{ steps.yaml.outputs['environment.name'] }}
+          echo first permission name: ${{ steps.yaml.outputs['environment.permissions.0.name'] }}
+          echo first permission permissions: ${{ steps.yaml.outputs['environment.permissions.0.permission'] }}
+          echo second permission name: ${{ steps.yaml.outputs['environment.permissions.1.name'] }}
+          echo second permission permissions: ${{ steps.yaml.outputs['environment.permissions.1.permission'] }}
+          echo deployment source libs: ${{ steps.yaml.outputs['deployment.code.source.libs'] }}
+          echo deployment source entry: ${{ steps.yaml.outputs['deployment.code.source.entry'] }}
