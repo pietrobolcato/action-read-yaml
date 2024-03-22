@@ -29,7 +29,6 @@ jobs:
           echo deployment source libs: $myEnv_source_libs
           echo deployment source entry: $myEnv_source_entry
 
-
       - name: read-yaml-file-2
         uses: pietrobolcato/action-read-yaml@main
         id: permissions

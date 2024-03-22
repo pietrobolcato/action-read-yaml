@@ -8,7 +8,7 @@ It supports hierarchy of nested values, representing the output through dot nota
 
 It also supports filtering dot notations keys in the output so that a specific keys dynamically can be selected in the github workflow.
 
-Finally, it supports adding dot notations keys delimited with _ as environment variables.
+Finally, it supports adding dot notations keys delimited with \_ as environment variables.
 
 For more information, check the example below.
 
@@ -126,8 +126,8 @@ Note that this is contained nested values. The action reads the yaml file in the
 > deployment.code.source.entry: path/to/entry
 > ```
 
-
 ### Environment variable output and filter pattern
+
 The config file contains the following keys:
 
 > ```yaml
@@ -212,7 +212,6 @@ The action reads the yaml file as following:
 
 use-yaml-file-1 outputs:
 
-
 > ```
 > deployment source libs: path/to/libs
 > deployment source entry: path/to/entry
@@ -222,13 +221,11 @@ use-yaml-file-1 outputs:
 >
 > deployment source libs: path/to/libs
 > deployment source entry: path/to/entry
->```
-
+> ```
 
 use-yaml-file-2 outputs:
 
-
->```
+> ```
 > first permission name: example
 > first permission permissions: read
 > second permission name: example2
@@ -245,6 +242,4 @@ use-yaml-file-2 outputs:
 > first permission permissions: read
 > first permission name: example2
 > first permission permissions: write
->```
-
-
+> ```

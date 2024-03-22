@@ -1,22 +1,22 @@
-name: "YAML Read"
-description: "This action reads a YAML configuration files, with support to variable interpolation"
-author: "pietrobolcato"
+name: 'YAML Read'
+description: 'This action reads a YAML configuration files, with support to variable interpolation'
+author: 'pietrobolcato'
 branding:
   icon: box
   color: blue
 inputs:
   config:
-    description: "Config file name"
+    description: 'Config file name'
     required: true
-    default: ""
+    default: ''
   key-path:
-    description: "Key path to filter out in the yaml file"
+    description: 'Key path to filter out in the yaml file'
     required: false
-    default: ""
+    default: ''
   env-var-prefix:
-    description: "Prefix that will be added as the prefix to the environment variables output"
+    description: 'Prefix that will be added as the prefix to the environment variables output'
     required: false
-    default: ""
+    default: ''
 runs:
-  using: "node16"
-  main: "action_read_yaml/index.js"
+  using: 'node20'
+  main: 'dist/index.js'
