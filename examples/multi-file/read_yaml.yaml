@@ -1,0 +1,30 @@
+name: helpers-read-yaml
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  read-yaml:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: read-yaml-file
+        uses: ${{ github.workspace }}/multi_read_yaml
+        id: read_action_js
+        with:
+          config-files: |
+            ${{ github.workspace }}/examples/multi-file/config_example_multi_file_1.yaml
+            ${{ github.workspace }}/examples/multi-file/config_example_multi_file_2.yaml
+
+      - name: use-yaml-file
+        run: |
+          echo environment name: ${{ steps.read_action_js.outputs['environment.name'] }}
+          echo first permission name: ${{ steps.read_action_js.outputs['environment.permissions.0.name'] }}
+          echo first permission permissions: ${{ steps.read_action_js.outputs['environment.permissions.0.permission'] }}
+          echo second permission name: ${{ steps.read_action_js.outputs['environment.permissions.1.name'] }}
+          echo second permission permissions: ${{ steps.read_action_js.outputs['environment.permissions.1.permission'] }}
+          echo deployment source libs: ${{ steps.read_action_js.outputs['deployment.code.source.libs'] }}
+          echo deployment source entry: ${{ steps.read_action_js.outputs['deployment.code.source.entry'] }}

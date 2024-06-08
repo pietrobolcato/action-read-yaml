@@ -1,0 +1,11 @@
+name: multi_file_2
+environment:
+  name: multi_file_2
+  permissions:
+    - name: multi_file_2
+      permission: read
+deployment:
+  code:
+    source:
+      libs: path/to/libs/multi_file_2
+      entry: path/to/entry/multi_file_2

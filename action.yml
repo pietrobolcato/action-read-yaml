@@ -1,12 +1,12 @@
 name: "YAML Read"
 description: "This action reads a YAML configuration files, with support to variable interpolation"
-author: "pietrobolcato"
+author: "spekosolutions"
 branding:
   icon: box
   color: blue
 inputs:
-  config:
-    description: "Config file name"
+  config-files:
+    description: "Config files"
     required: true
     default: ""
   key-path:
@@ -19,4 +19,4 @@ inputs:
     default: ""
 runs:
   using: "node20"
-  main: "action_read_yaml/index.js"
+  main: "multi_read_yaml/index.js"
